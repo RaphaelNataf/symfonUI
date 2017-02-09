@@ -49,6 +49,20 @@ function generateSFCRUD () {
   echo "\033[32mA controller ?! Good luck with it.\033[0m"
   php bin/console doctrine:generate:crud;
 }
+function installProjMate () {
+  echo "\033[32mInstalling friends depencies\033[0m"
+  composer install;
+  echo "\033[32mChecking if symfony is correct\033[0m"
+  php bin/symfony_requirements;
+  echo "\033[32mCreating database (don't forget to launch MAMP and parameters.yml configed with right ports):\033[0m"
+  php bin/console doctrine:database:create;
+  echo "\033[32mUpdating the schema:\033[0m"
+  php bin/console doctrine:schema:update --dump-sql;
+  echo "\033[32mForcing the update:\033[0m"
+  php bin/console doctrine:schema:update --force;
+  echo "\033[32mLaunching servers:\033[0m"
+  php bin/console server:run;
+}
 function displayMenu () {
 
 echo "---------------------------------------------------------------------------"
@@ -70,7 +84,7 @@ echo ""
 PS3='Your choice [n]: '
 echo "\033[32mBe sure you re in the path of your Symfony folder."
 echo "\033[0m"
-options=("Install symfony" "Open the console" "Start server" "Update your schema (+force option)" "See the routes (debug:router)" "Create a new Controller" "Create a bundle" "Create an entity" "Generate a CRUD for entity" "Exit Symfonui")
+options=("Install symfony" "Open the console" "Start server" "Update your schema (+force option)" "See the routes (debug:router)" "Create a new Controller" "Create a bundle" "Create an entity" "Generate a CRUD for entity" "Install project of another" "Exit Symfonui")
 select opt in "${options[@]}"
 do
     case $opt in
@@ -83,14 +97,14 @@ do
             ;;
         "Open the console")
       echo "---------------------------------------"
-            echo "\033[31m    @_@ I can see my shitcode @_@"
+            echo "\033[31m    ''Ordinateuuuur ?'' cringy"
             echo "\033[0m"
             php bin/console;
             break
             ;;
         "Start server")
       echo "---------------------------------------"
-            echo "\033[31m    ## Sending DATAs to The Matrix ##"
+            echo "\033[31m    @.@ I can see my shitcode now. @.@"
             echo "\033[0m"
             php bin/console server:run;
             break
@@ -104,7 +118,7 @@ do
             ;;
         "See the routes (debug:router)")
       echo "---------------------------------------"
-            echo "\033[31m    ## Sending DATAs to The Matrix ##"
+            echo "\033[31m    ## To the routes, please! ##"
             echo "\033[0m"
             seeRoutes;
             break
@@ -144,8 +158,16 @@ do
             php bin/console doctrine:generate:crud;
             break
             ;;
-        
+        "Install project of another")
+      echo "---------------------------"
+            echo "\033[31m    Yay. A new project!"
+            echo "\033[0m"
+            installProjMate;
+            break
+            ;;
         "Exit Symfonui")
+            echo "\033[32m    BYE :* "
+            echo "\033[0m"
             break
             ;;
         *) echo invalid option;;
