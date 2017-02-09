@@ -1,5 +1,8 @@
 # SymfonUI.sh by f0ster
 function installSymfony () {
+  echo "-----------------------------"
+  echo "\033[30m    Installing Symfony for you! :D"
+  echo "\033[0m"
     read -p "Do you want a specific version of Symfony? [yY/nN]" inputCompVersionYN
     if [[ $inputCompVersionYN == "y" || $inputCompVersionYN == "Y" ]]; then
       read -p "Please enter the version needed (ex : 2.8.*)" inputCompVersion
@@ -12,7 +15,7 @@ function installSymfony () {
       echo "\033[32mWe put you in the created directory ($inputProjectName). Symfony is ready, just start a server :)\033[0m"
     fi
     if [[ $inputCompVersionYN == "n" || $inputCompVersionYN == "N" ]]; then
-      echo "\033[32mWe're composer for you...\033[0m"
+      echo "\033[32mWe're getting composer for you...\033[0m"
       wget https://getcomposer.org/download/1.3.2/composer.phar
       echo "\033[32mWe're installing Symfony for you...\033[0m"
        php composer.phar create-project symfony/symfony $inputProjectName;
@@ -21,7 +24,10 @@ function installSymfony () {
       echo "\033[32mWe put you in the created directory. Symfony is ready, just start a server :)\033[0m"
     fi
 }
-function updateSQL () {
+function updateSchema () {
+  echo "---------------------------------------"
+  echo "\033[31m    ## Sending DATAs to The Matrix ##"
+  echo "\033[0m"
   echo "\033[32mHere's what we have :.\033[0m"
   php bin/console doctrine:schema:update --dump-sql;
   read -p "Do you want to force the update? [yY/nN]" inputUpdate
@@ -34,22 +40,60 @@ function updateSQL () {
     break
 }
 function seeRoutes () {
+  echo "---------------------------------------"
+  echo "\033[31m    ## To the routes, please! ##"
+  echo "\033[0m"
   echo "\033[32mHere's your routes, sir!\033[0m"
   php bin/console debug:router;
 }
+function openConsole () {
+  echo "---------------------------------------"
+  echo "\033[31m    ''Ordinateuuuur ?'' cringy"
+  echo "\033[0m"
+  php bin/console;
+}
+function startServers () {
+  echo "---------------------------------------"
+  echo "\033[31m    @.@ I can see my shitcode now. @.@"
+  echo "\033[0m"
+  php bin/console server:run;
+}
+function createEntity () {
+  echo "---------------------------"
+  echo "\033[31m    Reminder, there must be a Bundle before all."
+  echo "\033[0m"
+  php bin/console doctrine:generate:entity;
+}
+function createBundle () {
+  echo "---------------------------"
+  echo "\033[31m    Buuuuuundle."
+  echo "\033[0m"
+  php bin/console generate:bundle;
+}
+
 function createSFModel () {
   echo "\033[32mYay! A new model.\033[0m"
   php bin/console doctrine:generate:model;
 }
 function createSFController () {
+  echo "---------------------------"
+  echo "\033[31m    OK, a new controller."
+  echo "\033[0m"
   echo "\033[32mA controller ?! Good luck with it.\033[0m"
   php bin/console doctrine:generate:controller;
 }
 function generateSFCRUD () {
+  echo "---------------------------"
+  echo "\033[31m    I love cruds ! Can we eat it ?"
+  echo "\033[0m"
+  php bin/console doctrine:generate:crud;
   echo "\033[32mA controller ?! Good luck with it.\033[0m"
   php bin/console doctrine:generate:crud;
 }
 function installProjMate () {
+  echo "---------------------------"
+  echo "\033[31m    Yay. A new project!"
+  echo "\033[0m"
   echo "\033[32mInstalling friends depencies\033[0m"
   composer install;
   echo "\033[32mChecking if symfony is correct\033[0m"
@@ -63,8 +107,12 @@ function installProjMate () {
   echo "\033[32mLaunching servers:\033[0m"
   php bin/console server:run;
 }
+function wantToexit() {
+echo "\033[32m    BYE :* "
+echo "\033[0m"
+break
+}
 function displayMenu () {
-
 echo "---------------------------------------------------------------------------"
 echo "     *                            *                                 *      "
 echo "        ______________                                   *                 "
@@ -81,97 +129,40 @@ echo "--------------------------------------------------------------------------
 echo "\033[34mSymfonUI.sh \033[0mis intended to be OpenSource for all your \033[31mSymfony\033[0m needs."
 echo "Please enjoy using it. Any other use is not the responsibility of the developer."
 echo ""
-PS3='Your choice [n]: '
+# PS3='Your choice [n]: '
 echo "\033[32mBe sure you re in the path of your Symfony folder."
 echo "\033[0m"
-options=("Install symfony" "Open the console" "Start server" "Update your schema (+force option)" "See the routes (debug:router)" "Create a new Controller" "Create a bundle" "Create an entity" "Generate a CRUD for entity" "Install project of another" "Exit Symfonui")
-select opt in "${options[@]}"
-do
-    case $opt in
-    	"Install symfony")
-			echo "-----------------------------"
-            echo "\033[30m  	Installing Symfony for you! :D"
-            echo "\033[0m"
-            installSymfony;
-            break
-            ;;
-        "Open the console")
-      echo "---------------------------------------"
-            echo "\033[31m    ''Ordinateuuuur ?'' cringy"
-            echo "\033[0m"
-            php bin/console;
-            break
-            ;;
-        "Start server")
-      echo "---------------------------------------"
-            echo "\033[31m    @.@ I can see my shitcode now. @.@"
-            echo "\033[0m"
-            php bin/console server:run;
-            break
-            ;;
-        "Update your schema (+force option)")
-      echo "---------------------------------------"
-            echo "\033[31m    ## Sending DATAs to The Matrix ##"
-            echo "\033[0m"
-            updateSQL;
-            break
-            ;;
-        "See the routes (debug:router)")
-      echo "---------------------------------------"
-            echo "\033[31m    ## To the routes, please! ##"
-            echo "\033[0m"
-            seeRoutes;
-            break
-            ;;
-   #      "Create a new View")
-			# echo "---------------------------"
-   #          echo "\033[31m  	Yay! A new page."
-   #          echo "\033[0m"
-   #          createSFView;
-   #          break
-   #          ;;
-        "Create a new Controller")
-      echo "---------------------------"
-            echo "\033[31m    OK, a new controller."
-            echo "\033[0m"
-            createSFController;
-            break
-            ;;
-        "Create a bundle")
-      echo "---------------------------"
-            echo "\033[31m    Buuuuuundle."
-            echo "\033[0m"
-            php bin/console generate:bundle;
-            break
-            ;;
-        "Create an entity")
-      echo "---------------------------"
-            echo "\033[31m    Reminder, there must be a Bundle before all."
-            echo "\033[0m"
-            php bin/console doctrine:generate:entity;
-            break
-            ;;
-        "Generate a CRUD for entity")
-      echo "---------------------------"
-            echo "\033[31m    I love cruds ! Can we eat it ?"
-            echo "\033[0m"
-            php bin/console doctrine:generate:crud;
-            break
-            ;;
-        "Install project of another")
-      echo "---------------------------"
-            echo "\033[31m    Yay. A new project!"
-            echo "\033[0m"
-            installProjMate;
-            break
-            ;;
-        "Exit Symfonui")
-            echo "\033[32m    BYE :* "
-            echo "\033[0m"
-            break
-            ;;
-        *) echo invalid option;;
-    esac
-done
+echo "      [0]   \033[34mInstall symfony\033[0m               [1]   Open the console"
+echo "      [2]   Start Server                  [3]   Update your schema (+force option)"
+echo "      [4]   See the routes (debug:router) [5]   Create a new Controller"
+echo "      [6]   Create a bundle               [7]   Create an entity"
+echo "      [8]   Generate a CRUD for entity    [9]   Install project of a friend"
+echo "      [10]  EXIT symfonUI."
+read -p "   Your choice [n]: " userDecision
+  if [[ "$userDecision" == "0" ]]; then
+      installSymfony;
+  elif [[ "$userDecision" == "1" ]]; then
+      openConsole;
+  elif [[ "$userDecision" == "2" ]]; then
+      startServers;
+  elif [[ "$userDecision" == "3" ]]; then
+      updateSchema;
+  elif [[ "$userDecision" == "4" ]]; then
+      seeRoutes;
+  elif [[ "$userDecision" == "5" ]]; then
+      createSFController;
+  elif [[ "$userDecision" == "6" ]]; then
+      createBundle;
+  elif [[ "$userDecision" == "7" ]]; then
+      createEntity;
+  elif [[ "$userDecision" == "8" ]]; then
+      generateSFCRUD;
+  elif [[ "$userDecision" == "9" ]]; then
+      installProjMate;
+  elif [[ "$userDecision" == "10" ]]; then
+      wantToexit;
+  else
+      wantToexit;
+  fi
 }
 displayMenu;
